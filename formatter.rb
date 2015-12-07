@@ -139,12 +139,21 @@ class LaTeX
     @out.print "\\ruby{#{kanji}}{#{rubi}}"
   end
 
+  def mathformat str
+    expr = str.dup
+    expr.tr! "（）｛｝", "(){}"
+    expr.gsub!(/λ/, "\\lambda ")
+    expr.gsub!(/log /, "\\log ")
+    expr.gsub!(/א/, "\\aleph ")
+    expr
+  end
+
   def shortmath str
-    @out.print "\\mbox{\\yoko $#{str}$}"
+    @out.print "\\mbox{\\yoko $#{mathformat(str)}$}"
   end
 
   def math str
-    @out.print "$#{str}$\n"
+    @out.print "$#{mathformat(str)}$\n"
   end
 
   def break
@@ -224,10 +233,11 @@ class Input
 
     elsif state == :NORMAL && str =~ /\A([0-9א]+[_^][0-9]+)/
       ## 10^12
+      expr = $1
       newstr = Regexp.last_match.post_match
       p ["shortmath", newstr[0..9]] if $DEBUG
 
-      out.shortmath $1
+      out.shortmath expr
 
       newstate = :NORMAL
 
@@ -237,8 +247,6 @@ class Input
       newstr = Regexp.last_match.post_match
       p ["math", newstr[0..9]] if $DEBUG
 
-      expr.tr! "（）｛｝", "(){}"
-      expr.gsub!(/λ/, "\\lambda ")
       out.math expr
 
       newstate = :NORMAL
