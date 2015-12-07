@@ -140,7 +140,7 @@ class LaTeX
   end
 
   def shortmath str
-    @out.print "\\mbox{\yoko $#{str}$}"
+    @out.print "\\mbox{\\yoko $#{str}$}"
   end
 
   def math str
