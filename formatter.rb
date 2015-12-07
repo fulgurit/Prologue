@@ -321,13 +321,14 @@ def setup_tankobon out
 \setlength\textheight{18\Cvs}
 \setlength\textwidth{43\Cwd}
 \setlength\bigskipamount{1\Cvs}
+\renewcommand{\thechapter}{\rensuji{\Roman{chapter}}}
 \makeatletter
 \def\@makechapterhead#1{\hbox{}%
   \vskip1\Cvs
   {\parindent\z@
    \raggedright
    \leavevmode
-   \null\hskip10\Cwd#1\relax}\nobreak\vskip2\Cvs}
+   \null\hskip10\Cwd\thechapter\relax}\nobreak\vskip2\Cvs}
 \makeatother
 EOS
 end
